@@ -1,0 +1,15 @@
+services:
+  landing:
+    build: .
+    image: boblabs/landing:latest
+    container_name: boblabs-landing
+    restart: unless-stopped
+    # Bind to localhost only — the host nginx terminates TLS and proxies in.
+    # Change the host port if 8081 is already taken.
+    ports:
+      - "127.0.0.1:8081:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3

@@ -1,0 +1,142 @@
+/* Bob Labs — i18n string table (EN / FR) */
+window.I18N = {
+  en: {
+    "nav.projects": "Projects",
+    "nav.manifesto": "Manifesto",
+    "nav.contact": "Contact",
+    "nav.cta": "Get in touch",
+
+    "hero.badge": "Independent · Open-source · Self-hosted",
+    "hero.title.1": "Sovereign infrastructure",
+    "hero.title.2": "for",
+    "hero.title.ai": "AI",
+    "hero.title.and": "&",
+    "hero.title.trading": "trading",
+    "hero.title.data": "data",
+    "hero.title.dot": ".",
+    "hero.lede": "Bob Labs builds and operates focused platforms — each solving one problem precisely, on infrastructure you control. No cloud lock-in, no per-token markup, no telemetry.",
+    "hero.cta.primary": "Explore the projects →",
+    "hero.cta.live": "View live lab",
+    "hero.scroll": "scroll",
+
+    "projects.kicker": "PROJECTS",
+    "projects.title": "Three platforms. One philosophy.",
+    "projects.sub": "Each project ships independently, runs in production, and is built to be owned — not rented.",
+
+    "card.lab.tag": "PRIVATE AI",
+    "card.lab.status": "v2 · live",
+    "card.lab.desc": "Open-source platform for multi-agent orchestration, private RAG, sandboxed tool execution, and GPU pipeline management — entirely on your infrastructure.",
+    "card.lab.f1": "Multi-agent orchestration",
+    "card.lab.f2": "Private RAG & sandboxed tools",
+    "card.lab.f3": "Ollama · vLLM · OpenAI routing",
+
+    "card.otc.tag": "P2P TRADING",
+    "card.otc.status": "bot active",
+    "card.otc.desc": "Secure peer-to-peer crypto trading, cross-chain and trustless. An autonomous escrow bot mediates orders across 10+ chains — no custody, no KYC.",
+    "card.otc.f1": "Cross-chain escrow bot",
+    "card.otc.f2": "10+ chains · ETH, BNB, Base…",
+    "card.otc.f3": "Open orderbook, no custody",
+
+    "card.emb.tag": "AGRI · DATA",
+    "card.emb.status": "v2.0",
+    "card.emb.desc": "Database for MAEC environmental measures — a precise toolset for farmers and advisors to track agro-environmental commitments and field-level compliance.",
+    "card.emb.f1": "MAEC catalogue & tracking",
+    "card.emb.f2": "Field & parcel management",
+    "card.emb.f3": "Multi-account, secure",
+
+    "manifesto.kicker": "MANIFESTO",
+    "manifesto.title": "Build small. Build owned. Build forever.",
+    "m.1.h": "No cloud dependency",
+    "m.1.p": "Every Bob Labs project runs on hardware you own — bare metal, on-prem, or your own cloud account. Zero vendor lock-in.",
+    "m.2.h": "Open by default",
+    "m.2.p": "Source-available or fully open-source. You can read, audit, fork and ship your own version of every line that runs on your servers.",
+    "m.3.h": "Focused, not bloated",
+    "m.3.p": "One project, one problem. Each platform does one thing very well, instead of becoming a leaky multi-tool.",
+    "m.4.h": "Built to last",
+    "m.4.p": "Boring stack, sharp execution. We optimize for projects that still run — and still make sense — five years from now.",
+
+    "contact.kicker": "CONTACT",
+    "contact.title": "Talk to the lab.",
+    "contact.p": "Looking for a private deployment, a custom integration, or just curious about how one of these platforms could fit your stack? Drop us a line.",
+    "contact.cta.live": "Watch a live lab →",
+
+    "foot.sub": "Private infrastructure · Open source",
+    "foot.copy": "© 2026 Bob Labs — Independent technology lab.",
+    "foot.tag": "Made with discipline, not magic.",
+
+    "ui.theme": "Theme",
+    "ui.theme.tech": "Tech",
+    "ui.theme.finance": "Finance",
+    "ui.theme.agri": "Agri"
+  },
+
+  fr: {
+    "nav.projects": "Projets",
+    "nav.manifesto": "Manifeste",
+    "nav.contact": "Contact",
+    "nav.cta": "Nous écrire",
+
+    "hero.badge": "Indépendant · Open-source · Auto-hébergé",
+    "hero.title.1": "Infrastructure souveraine",
+    "hero.title.2": "pour l'",
+    "hero.title.ai": "IA",
+    "hero.title.and": ", le",
+    "hero.title.trading": "trading",
+    "hero.title.data": "données",
+    "hero.title.dot": ".",
+    "hero.lede": "Bob Labs conçoit et opère des plateformes ciblées — chacune résout un problème précis, sur une infrastructure que vous contrôlez. Pas de cloud imposé, pas de tarification au token, aucune télémétrie.",
+    "hero.cta.primary": "Découvrir les projets →",
+    "hero.cta.live": "Voir un lab en direct",
+    "hero.scroll": "défiler",
+
+    "projects.kicker": "PROJETS",
+    "projects.title": "Trois plateformes. Une philosophie.",
+    "projects.sub": "Chaque projet est livré séparément, tourne en production, et est conçu pour être possédé — pas loué.",
+
+    "card.lab.tag": "IA PRIVÉE",
+    "card.lab.status": "v2 · en ligne",
+    "card.lab.desc": "Plateforme open-source d'orchestration multi-agents, RAG privé, exécution d'outils en bac-à-sable et gestion de pipelines GPU — entièrement sur votre infrastructure.",
+    "card.lab.f1": "Orchestration multi-agents",
+    "card.lab.f2": "RAG privé & outils sandboxés",
+    "card.lab.f3": "Ollama · vLLM · OpenAI",
+
+    "card.otc.tag": "TRADING P2P",
+    "card.otc.status": "bot actif",
+    "card.otc.desc": "Trading crypto pair-à-pair sécurisé, cross-chain et trustless. Un bot d'escrow autonome arbitre les ordres sur 10+ chaînes — sans custody, sans KYC.",
+    "card.otc.f1": "Bot d'escrow cross-chain",
+    "card.otc.f2": "10+ chaînes · ETH, BNB, Base…",
+    "card.otc.f3": "Carnet ouvert, sans custody",
+
+    "card.emb.tag": "AGRI · DATA",
+    "card.emb.status": "v2.0",
+    "card.emb.desc": "Base de données des mesures agro-environnementales (MAEC) — un outil précis pour les exploitants et conseillers afin de suivre engagements et conformité parcelle par parcelle.",
+    "card.emb.f1": "Catalogue & suivi MAEC",
+    "card.emb.f2": "Gestion parcellaire",
+    "card.emb.f3": "Multi-comptes, sécurisé",
+
+    "manifesto.kicker": "MANIFESTE",
+    "manifesto.title": "Petit. Possédé. Pour durer.",
+    "m.1.h": "Zéro dépendance cloud",
+    "m.1.p": "Chaque projet Bob Labs tourne sur du matériel que vous possédez — bare-metal, on-prem, ou votre propre compte cloud. Aucun verrou éditeur.",
+    "m.2.h": "Ouvert par défaut",
+    "m.2.p": "Source disponible ou totalement open-source. Vous pouvez lire, auditer, forker et déployer votre propre version de chaque ligne qui tourne sur vos serveurs.",
+    "m.3.h": "Ciblé, pas bouffi",
+    "m.3.p": "Un projet, un problème. Chaque plateforme fait une chose, très bien, plutôt que de devenir un couteau-suisse approximatif.",
+    "m.4.h": "Conçu pour durer",
+    "m.4.p": "Stack ennuyeuse, exécution précise. On optimise pour des projets qui tournent encore — et qui ont encore du sens — dans cinq ans.",
+
+    "contact.kicker": "CONTACT",
+    "contact.title": "Parlez au lab.",
+    "contact.p": "Vous cherchez un déploiement privé, une intégration sur mesure, ou êtes simplement curieux de voir comment l'une de ces plateformes pourrait s'intégrer à votre stack ? Écrivez-nous.",
+    "contact.cta.live": "Voir un lab en direct →",
+
+    "foot.sub": "Infrastructure privée · Open source",
+    "foot.copy": "© 2026 Bob Labs — Laboratoire technologique indépendant.",
+    "foot.tag": "Faite avec discipline, pas de la magie.",
+
+    "ui.theme": "Thème",
+    "ui.theme.tech": "Tech",
+    "ui.theme.finance": "Finance",
+    "ui.theme.agri": "Agri"
+  }
+};

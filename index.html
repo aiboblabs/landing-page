@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en" data-theme="tech">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bob Labs — Sovereign infrastructure for AI, trading & data</title>
+<meta name="description" content="Bob Labs ships open-source platforms for private AI, trustless P2P trading, and environmental data — deployed on infrastructure you own." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+  <!-- Background stack: 3D grid + flocking canvas -->
+  <div class="grid-stage" aria-hidden="true">
+    <div class="grid-scene">
+      <div class="grid-plane grid-floor"></div>
+      <div class="grid-plane grid-ceiling"></div>
+    </div>
+    <canvas id="flock" class="flock"></canvas>
+    <div class="vignette"></div>
+    <div class="noise"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="nav">
+    <a href="#" class="brand">
+      <span class="diamond">◆</span>
+      <span class="brand-name">Bob Labs</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#projects" data-i18n="nav.projects">Projects</a>
+      <a href="#manifesto" data-i18n="nav.manifesto">Manifesto</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="nav-tools">
+      <div class="seg" role="tablist" aria-label="Theme">
+        <button class="seg-btn" data-theme-btn="tech"     title="Tech / AI"          aria-label="Tech theme">⌘</button>
+        <button class="seg-btn" data-theme-btn="finance"  title="Finance / Trading"  aria-label="Finance theme">₿</button>
+        <button class="seg-btn" data-theme-btn="agri"     title="Agriculture / Data" aria-label="Agriculture theme">❀</button>
+      </div>
+      <div class="seg" role="tablist" aria-label="Language">
+        <button class="seg-btn" data-lang-btn="en" aria-label="English">EN</button>
+        <button class="seg-btn" data-lang-btn="fr" aria-label="Français">FR</button>
+      </div>
+      <a href="mailto:support@boblabs.eu" class="btn-ghost cta-mail" data-i18n="nav.cta">Get in touch</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">
+      <span class="dot"></span>
+      <span data-i18n="hero.badge">Independent · Open-source · Self-hosted</span>
+    </div>
+
+    <h1>
+      <span data-i18n="hero.title.1">Sovereign infrastructure</span><br />
+      <span data-i18n="hero.title.2">for</span>
+      <span class="grad" data-i18n="hero.title.ai">AI</span><span data-i18n="hero.title.comma">,</span>
+      <span class="grad-2" data-i18n="hero.title.trading">trading</span> &amp;
+      <span class="grad-3" data-i18n="hero.title.data">data</span><span data-i18n="hero.title.dot">.</span>
+    </h1>
+
+    <p class="lede" data-i18n="hero.lede">
+      Bob Labs builds and operates focused platforms — each solving one problem precisely,
+      on infrastructure you control. No cloud lock-in, no per-token markup, no telemetry.
+    </p>
+
+    <div class="cta-row">
+      <a href="#projects" class="btn-primary" data-i18n="hero.cta.primary">Explore the projects →</a>
+      <a href="https://lab.boblabs.eu/live" class="btn-ghost" target="_blank" rel="noopener" data-i18n="hero.cta.live">View live lab</a>
+    </div>
+
+    <!-- Scroll hint sits in its OWN row, under the buttons -->
+    <div class="scroll-hint">
+      <span data-i18n="hero.scroll">scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="projects">
+    <div class="section-head">
+      <span class="kicker" data-i18n="projects.kicker">PROJECTS</span>
+      <h2 data-i18n="projects.title">Three platforms. One philosophy.</h2>
+      <p data-i18n="projects.sub">Each project ships independently, runs in production, and is built to be owned — not rented.</p>
+    </div>
+
+    <div class="cards">
+
+      <a href="https://lab.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="cyan">
+        <div class="card-glow"></div>
+        <div class="card-head">
+          <span class="card-tag" data-i18n="card.lab.tag">PRIVATE AI</span>
+          <span class="card-status"><span class="pulse"></span><span data-i18n="card.lab.status">v2 · live</span></span>
+        </div>
+        <div class="card-logo">◆</div>
+        <h3>Bob Labs</h3>
+        <p class="card-desc" data-i18n="card.lab.desc">
+          Open-source platform for multi-agent orchestration, private RAG, sandboxed
+          tool execution, and GPU pipeline management — entirely on your infrastructure.
+        </p>
+        <ul class="card-feats">
+          <li data-i18n="card.lab.f1">Multi-agent orchestration</li>
+          <li data-i18n="card.lab.f2">Private RAG &amp; sandboxed tools</li>
+          <li data-i18n="card.lab.f3">Ollama · vLLM · OpenAI routing</li>
+        </ul>
+        <div class="card-foot">
+          <span class="card-domain">lab.boblabs.eu</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://otc.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="violet">
+        <div class="card-glow"></div>
+        <div class="card-head">
+          <span class="card-tag" data-i18n="card.otc.tag">P2P TRADING</span>
+          <span class="card-status"><span class="pulse"></span><span data-i18n="card.otc.status">bot active</span></span>
+        </div>
+        <div class="card-logo">⇋</div>
+        <h3>Trustless OTC</h3>
+        <p class="card-desc" data-i18n="card.otc.desc">
+          Secure peer-to-peer crypto trading, cross-chain and trustless. An autonomous
+          escrow bot mediates orders across 10+ chains — no custody, no KYC.
+        </p>
+        <ul class="card-feats">
+          <li data-i18n="card.otc.f1">Cross-chain escrow bot</li>
+          <li data-i18n="card.otc.f2">10+ chains · ETH, BNB, Base…</li>
+          <li data-i18n="card.otc.f3">Open orderbook, no custody</li>
+        </ul>
+        <div class="card-foot">
+          <span class="card-domain">otc.boblabs.eu</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://emb.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="emerald">
+        <div class="card-glow"></div>
+        <div class="card-head">
+          <span class="card-tag" data-i18n="card.emb.tag">AGRI · DATA</span>
+          <span class="card-status"><span class="pulse"></span><span data-i18n="card.emb.status">v2.0</span></span>
+        </div>
+        <div class="card-logo">⌬</div>
+        <h3>Etic'Monts</h3>
+        <p class="card-desc" data-i18n="card.emb.desc">
+          Database for MAEC environmental measures — a precise toolset for farmers and
+          advisors to track agro-environmental commitments and field-level compliance.
+        </p>
+        <ul class="card-feats">
+          <li data-i18n="card.emb.f1">MAEC catalogue &amp; tracking</li>
+          <li data-i18n="card.emb.f2">Field &amp; parcel management</li>
+          <li data-i18n="card.emb.f3">Multi-account, secure</li>
+        </ul>
+        <div class="card-foot">
+          <span class="card-domain">emb.boblabs.eu</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Manifesto -->
+  <section id="manifesto" class="manifesto">
+    <div class="section-head">
+      <span class="kicker" data-i18n="manifesto.kicker">MANIFESTO</span>
+      <h2 data-i18n="manifesto.title">Build small. Build owned. Build forever.</h2>
+    </div>
+    <div class="m-grid">
+      <div class="m-item">
+        <div class="m-num">01</div>
+        <h4 data-i18n="m.1.h">No cloud dependency</h4>
+        <p data-i18n="m.1.p">Every Bob Labs project runs on hardware you own — bare metal, on-prem, or your own cloud account. Zero vendor lock-in.</p>
+      </div>
+      <div class="m-item">
+        <div class="m-num">02</div>
+        <h4 data-i18n="m.2.h">Open by default</h4>
+        <p data-i18n="m.2.p">Source-available or fully open-source. You can read, audit, fork and ship your own version of every line that runs on your servers.</p>
+      </div>
+      <div class="m-item">
+        <div class="m-num">03</div>
+        <h4 data-i18n="m.3.h">Focused, not bloated</h4>
+        <p data-i18n="m.3.p">One project, one problem. Each platform does one thing very well, instead of becoming a leaky multi-tool.</p>
+      </div>
+      <div class="m-item">
+        <div class="m-num">04</div>
+        <h4 data-i18n="m.4.h">Built to last</h4>
+        <p data-i18n="m.4.p">Boring stack, sharp execution. We optimize for projects that still run — and still make sense — five years from now.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <div class="contact-card">
+      <span class="kicker" data-i18n="contact.kicker">CONTACT</span>
+      <h2 data-i18n="contact.title">Talk to the lab.</h2>
+      <p data-i18n="contact.p">
+        Looking for a private deployment, a custom integration, or just curious about how
+        one of these platforms could fit your stack? Drop us a line.
+      </p>
+      <div class="cta-row">
+        <a class="btn-primary" href="mailto:support@boblabs.eu">support@boblabs.eu</a>
+        <a class="btn-ghost" href="https://lab.boblabs.eu/live" target="_blank" rel="noopener" data-i18n="contact.cta.live">Watch a live lab →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="foot-row">
+      <div class="foot-brand">
+        <span class="diamond">◆</span> Bob Labs
+        <span class="foot-sub" data-i18n="foot.sub">Private infrastructure · Open source</span>
+      </div>
+      <div class="foot-links">
+        <a href="https://lab.boblabs.eu/" target="_blank" rel="noopener">Bob Labs</a>
+        <a href="https://otc.boblabs.eu/" target="_blank" rel="noopener">Trustless OTC</a>
+        <a href="https://emb.boblabs.eu/" target="_blank" rel="noopener">Etic'Monts</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span data-i18n="foot.copy">© 2026 Bob Labs — Independent technology lab.</span>
+      <span data-i18n="foot.tag">Made with discipline, not magic.</span>
+    </div>
+  </footer>
+
+  <script src="./i18n.js" defer></script>
+  <script src="./flocking.js" defer></script>
+  <script src="./main.js" defer></script>
+</body>
+</html>
