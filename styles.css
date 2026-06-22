@@ -8,12 +8,22 @@
   --bg-2: #0b0f16;
   --ink: #e7ecf3;
   --ink-dim: #93a0b3;
-  --ink-mute: #5b6678;
+  --ink-mute: #6b7589; /* lifted from #5b6678 for AA contrast on dark bg */
   --line: rgba(255,255,255,0.08);
   --line-strong: rgba(255,255,255,0.14);
   --max: 1200px;
   --radius: 14px;
-  --t: cubic-bezier(.22,.61,.36,1);
+
+  /* Easing — Emil-style strong curves. Default easings feel limp; these give intent. */
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --t:           var(--ease-out);
+
+  /* Durations — UI stays under 300ms (Emil). */
+  --d-press: 140ms;
+  --d-fast:  180ms;
+  --d-ui:    240ms;
+  --d-slow:  420ms;  /* reserved for theme/background crossfades only */
 
   /* Theme tokens — overridden per [data-theme] below */
   --accent:    #5eead4;
@@ -42,7 +52,7 @@ html[data-theme="tech"] {
   --bg-tint-a: rgba(96,165,250,0.12);
   --bg-tint-b: rgba(167,139,250,0.08);
 }
-html[data-theme="finance"] {
+html[data-theme="app"] {
   --accent:    #fbbf24;     /* amber */
   --accent-2:  #f97316;     /* orange */
   --accent-3:  #f472b6;
@@ -60,7 +70,7 @@ html[data-theme="agri"] {
   --bg-tint-a: rgba(52,211,153,0.12);
   --bg-tint-b: rgba(132,204,22,0.08);
 }
-html { transition: background 600ms var(--t); }
+html { transition: background var(--d-slow) var(--ease-in-out); }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -78,7 +88,38 @@ body {
     radial-gradient(1200px 700px at 80% -10%, var(--bg-tint-a), transparent 60%),
     radial-gradient(900px 600px at 10% 30%, var(--bg-tint-b), transparent 60%),
     linear-gradient(180deg, #06080c 0%, #07090d 100%);
-  transition: background 600ms var(--t);
+  transition: background var(--d-slow) var(--ease-in-out);
+}
+
+/* Skip-link for keyboard users */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.skip-link:focus { left: 16px; outline: none; }
+
+/* Anchor offset so jump-to-section doesn't hide under the sticky-feeling nav */
+section[id] { scroll-margin-top: 80px; }
+
+/* Focus-visible — keyboard navigation should be visible. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.btn-primary:focus-visible,
+.btn-ghost:focus-visible,
+.seg-btn:focus-visible,
+.card:focus-visible {
+  outline-offset: 4px;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -199,7 +240,8 @@ a { color: inherit; text-decoration: none; }
   color: var(--accent);
   text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
   font-size: 18px;
-  transition: color 400ms var(--t), text-shadow 400ms var(--t);
+  transition: color var(--d-slow) var(--ease-in-out),
+              text-shadow var(--d-slow) var(--ease-in-out);
 }
 
 .nav-tools {
@@ -228,9 +270,15 @@ a { color: inherit; text-decoration: none; }
   border-radius: 999px;
   cursor: pointer;
   line-height: 1;
-  transition: color 200ms var(--t), background 200ms var(--t), box-shadow 200ms var(--t);
+  transition:
+    color      var(--d-fast) var(--ease-out),
+    background var(--d-fast) var(--ease-out),
+    box-shadow var(--d-fast) var(--ease-out),
+    transform  var(--d-press) var(--ease-out);
 }
-.seg-btn:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .seg-btn:hover { color: var(--ink); }
+}
 .seg-btn[aria-pressed="true"] {
   color: #06121a;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
@@ -243,26 +291,30 @@ a { color: inherit; text-decoration: none; }
   display: flex; gap: 28px;
   font-size: 14px; color: var(--ink-dim);
 }
-.nav-links a:hover { color: var(--ink); }
+.nav-links a {
+  transition: color var(--d-fast) var(--ease-out);
+}
+/* .nav-links a:hover handled inside the hover media query below. */
 
 .btn-ghost, .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 14px; font-weight: 500;
   padding: 10px 16px;
   border-radius: 999px;
-  transition: all .25s var(--t);
   white-space: nowrap;
+  cursor: pointer;
+  /* Specific properties only — never `all` (Emil) */
+  transition:
+    transform var(--d-press) var(--ease-out),
+    border-color var(--d-fast) var(--ease-out),
+    color        var(--d-fast) var(--ease-out),
+    box-shadow   var(--d-ui)   var(--ease-out);
 }
 .btn-ghost {
   border: 1px solid var(--line-strong);
   color: var(--ink);
   background: rgba(255,255,255,0.02);
   backdrop-filter: blur(6px);
-}
-.btn-ghost:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 .btn-primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
@@ -271,9 +323,24 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid rgba(255,255,255,.15);
   box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--accent-2) 60%, transparent);
 }
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 40px -12px color-mix(in srgb, var(--accent-2) 75%, transparent);
+
+/* Press feedback — scale(0.97) confirms the interface heard the user (Emil). */
+.btn-ghost:active,
+.btn-primary:active,
+.card:active,
+.seg-btn:active { transform: scale(0.97); }
+
+/* Hover only on real pointer devices to avoid sticky :hover on tap (Emil). */
+@media (hover: hover) and (pointer: fine) {
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 40px -12px color-mix(in srgb, var(--accent-2) 75%, transparent);
+  }
 }
 
 /* ----------------------------------------------------------------
@@ -310,9 +377,14 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
   max-width: 16ch;
 }
-.grad   { background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.grad-2 { background: linear-gradient(120deg, var(--accent-2), var(--accent-3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.grad-3 { background: linear-gradient(120deg, var(--accent-3), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* One confident gradient applied to the three nouns. Rainbow text per word is AI-slop. */
+.grad, .grad-2, .grad-3 {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Subtle accent-2 underline tie-back, decorative */
+}
 
 .lede {
   max-width: 640px; margin: 0 auto 38px;
@@ -397,13 +469,17 @@ a { color: inherit; text-decoration: none; }
     rgba(11, 15, 22, 0.55);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
-  transition: transform .35s var(--t), border-color .35s var(--t), box-shadow .35s var(--t);
+  /* Tightened from 350ms to 240ms — feels responsive, not sluggish (Emil). */
+  transition:
+    transform    var(--d-ui) var(--ease-out),
+    border-color var(--d-ui) var(--ease-out),
+    box-shadow   var(--d-ui) var(--ease-out);
   overflow: hidden;
   min-height: 380px;
 }
 
 .card[data-accent="cyan"]    { --acc: #5eead4; --acc2: #60a5fa; }
-.card[data-accent="violet"]  { --acc: #a78bfa; --acc2: #f472b6; }
+.card[data-accent="amber"]   { --acc: #fbbf24; --acc2: #f97316; }
 .card[data-accent="emerald"] { --acc: #34d399; --acc2: #fbbf24; }
 
 .card-glow {
@@ -412,17 +488,20 @@ a { color: inherit; text-decoration: none; }
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  transition: opacity .4s var(--t);
+  transition: opacity var(--d-ui) var(--ease-out);
   background: radial-gradient(380px 220px at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--acc) 22%, transparent), transparent 70%);
 }
-.card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--acc) 50%, var(--line-strong));
-  box-shadow:
-    0 24px 60px -20px rgba(0,0,0,.6),
-    0 0 0 1px color-mix(in srgb, var(--acc) 25%, transparent);
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--acc) 50%, var(--line-strong));
+    box-shadow:
+      0 24px 60px -20px rgba(0,0,0,.6),
+      0 0 0 1px color-mix(in srgb, var(--acc) 25%, transparent);
+  }
+  .card:hover .card-glow { opacity: 1; }
 }
-.card:hover .card-glow { opacity: 1; }
 
 .card-head {
   display: flex; justify-content: space-between; align-items: center;
@@ -497,10 +576,12 @@ a { color: inherit; text-decoration: none; }
 .card-domain { color: var(--ink-dim); }
 .card-arrow {
   font-size: 18px;
-  transition: transform .3s var(--t);
+  transition: transform var(--d-ui) var(--ease-out);
   color: var(--acc);
 }
-.card:hover .card-arrow { transform: translateX(4px); }
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .card-arrow { transform: translateX(4px); }
+}
 
 /* ----------------------------------------------------------------
    MANIFESTO
@@ -521,9 +602,11 @@ a { color: inherit; text-decoration: none; }
 .m-item {
   background: rgba(11, 15, 22, 0.55);
   padding: 28px 24px;
-  transition: background .3s var(--t);
+  transition: background var(--d-ui) var(--ease-out);
 }
-.m-item:hover { background: rgba(20, 28, 40, 0.6); }
+@media (hover: hover) and (pointer: fine) {
+  .m-item:hover { background: rgba(20, 28, 40, 0.6); }
+}
 .m-num {
   font-family: 'JetBrains Mono', monospace;
   color: var(--accent);
@@ -593,7 +676,13 @@ a { color: inherit; text-decoration: none; }
   font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
 }
 .foot-links { display: flex; gap: 24px; font-size: 14px; color: var(--ink-dim); }
-.foot-links a:hover { color: var(--accent); }
+.foot-links a {
+  transition: color var(--d-fast) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .foot-links a:hover { color: var(--accent); }
+  .nav-links a:hover { color: var(--ink); }
+}
 .foot-bottom {
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   font-size: 12px; color: var(--ink-mute);
@@ -619,7 +708,34 @@ a { color: inherit; text-decoration: none; }
   .nav-tools .seg-btn { padding: 6px 9px; min-width: 30px; font-size: 12px; }
 }
 
+/* ----------------------------------------------------------------
+   REVEAL-ON-SCROLL
+   JS adds .is-in when the element enters the viewport. Stagger via --i.
+   Uses transform + opacity only — GPU-friendly (Emil).
+   ---------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity   var(--d-slow) var(--ease-out),
+    transform var(--d-slow) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 60ms);  /* stagger 60ms between siblings (Emil sweet spot) */
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* Movement off, opacity fades stay — accessibility, not a kill switch (Emil). */
   .grid-scene { transition: none; }
   .pulse, .badge .dot, .scroll-line::after { animation: none; }
+  .reveal { transform: none; }
+  .reveal.is-in { transform: none; }
+  .card:hover,
+  .btn-primary:hover,
+  .card:active,
+  .btn-ghost:active,
+  .btn-primary:active,
+  .seg-btn:active { transform: none; }
 }

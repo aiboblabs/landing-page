@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Bob Labs — Sovereign infrastructure for AI, trading & data</title>
-<meta name="description" content="Bob Labs ships open-source platforms for private AI, trustless P2P trading, and environmental data — deployed on infrastructure you own." />
+<title>Bob Labs — Sovereign infrastructure for app & data</title>
+<meta name="description" content="Bob Labs ships open-source platforms for private AI, a voice-driven farm app, and environmental data — deployed on infrastructure you own." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- Background stack: 3D grid + flocking canvas -->
   <div class="grid-stage" aria-hidden="true">
@@ -39,7 +41,7 @@
     <div class="nav-tools">
       <div class="seg" role="tablist" aria-label="Theme">
         <button class="seg-btn" data-theme-btn="tech"     title="Tech / AI"          aria-label="Tech theme">⌘</button>
-        <button class="seg-btn" data-theme-btn="finance"  title="Finance / Trading"  aria-label="Finance theme">₿</button>
+        <button class="seg-btn" data-theme-btn="app"      title="App / Voice"        aria-label="App theme">⬮</button>
         <button class="seg-btn" data-theme-btn="agri"     title="Agriculture / Data" aria-label="Agriculture theme">❀</button>
       </div>
       <div class="seg" role="tablist" aria-label="Language">
@@ -51,26 +53,25 @@
   </header>
 
   <!-- Hero -->
-  <section class="hero">
-    <div class="badge">
+  <section class="hero" id="main">
+    <div class="badge" data-reveal>
       <span class="dot"></span>
       <span data-i18n="hero.badge">Independent · Open-source · Self-hosted</span>
     </div>
 
-    <h1>
+    <h1 data-reveal>
       <span data-i18n="hero.title.1">Sovereign infrastructure</span><br />
       <span data-i18n="hero.title.2">for</span>
-      <span class="grad" data-i18n="hero.title.ai">AI</span><span data-i18n="hero.title.comma">,</span>
-      <span class="grad-2" data-i18n="hero.title.trading">trading</span> &amp;
+      <span class="grad" data-i18n="hero.title.app">app</span> &amp;
       <span class="grad-3" data-i18n="hero.title.data">data</span><span data-i18n="hero.title.dot">.</span>
     </h1>
 
-    <p class="lede" data-i18n="hero.lede">
+    <p class="lede" data-reveal data-i18n="hero.lede">
       Bob Labs builds and operates focused platforms — each solving one problem precisely,
       on infrastructure you control. No cloud lock-in, no per-token markup, no telemetry.
     </p>
 
-    <div class="cta-row">
+    <div class="cta-row" data-reveal>
       <a href="#projects" class="btn-primary" data-i18n="hero.cta.primary">Explore the projects →</a>
       <a href="https://lab.boblabs.eu/live" class="btn-ghost" target="_blank" rel="noopener" data-i18n="hero.cta.live">View live lab</a>
     </div>
@@ -90,9 +91,9 @@
       <p data-i18n="projects.sub">Each project ships independently, runs in production, and is built to be owned — not rented.</p>
     </div>
 
-    <div class="cards">
+    <div class="cards" data-reveal-group>
 
-      <a href="https://lab.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="cyan">
+      <a href="https://lab.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="cyan" data-reveal>
         <div class="card-glow"></div>
         <div class="card-head">
           <span class="card-tag" data-i18n="card.lab.tag">PRIVATE AI</span>
@@ -115,30 +116,30 @@
         </div>
       </a>
 
-      <a href="https://otc.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="violet">
+      <a href="https://pouleapp.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="amber" data-reveal>
         <div class="card-glow"></div>
         <div class="card-head">
-          <span class="card-tag" data-i18n="card.otc.tag">P2P TRADING</span>
-          <span class="card-status"><span class="pulse"></span><span data-i18n="card.otc.status">bot active</span></span>
+          <span class="card-tag" data-i18n="card.poule.tag">VOICE · FARM APP</span>
+          <span class="card-status"><span class="pulse"></span><span data-i18n="card.poule.status">private beta</span></span>
         </div>
-        <div class="card-logo">⇋</div>
-        <h3>Trustless OTC</h3>
-        <p class="card-desc" data-i18n="card.otc.desc">
-          Secure peer-to-peer crypto trading, cross-chain and trustless. An autonomous
-          escrow bot mediates orders across 10+ chains — no custody, no KYC.
+        <div class="card-logo">⬮</div>
+        <h3>Poule App</h3>
+        <p class="card-desc" data-i18n="card.poule.desc">
+          A breeding logbook that fills itself as you speak. Dictate your observations and
+          the app structures egg counts, feed and traceability into a compliant farm registry.
         </p>
         <ul class="card-feats">
-          <li data-i18n="card.otc.f1">Cross-chain escrow bot</li>
-          <li data-i18n="card.otc.f2">10+ chains · ETH, BNB, Base…</li>
-          <li data-i18n="card.otc.f3">Open orderbook, no custody</li>
+          <li data-i18n="card.poule.f1">Voice entry, one-tap validation</li>
+          <li data-i18n="card.poule.f2">Live egg, feed &amp; lighting tracking</li>
+          <li data-i18n="card.poule.f3">Compliant registry · PDF export</li>
         </ul>
         <div class="card-foot">
-          <span class="card-domain">otc.boblabs.eu</span>
+          <span class="card-domain">pouleapp.boblabs.eu</span>
           <span class="card-arrow">→</span>
         </div>
       </a>
 
-      <a href="https://emb.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="emerald">
+      <a href="https://emb.boblabs.eu/" class="card" target="_blank" rel="noopener" data-accent="emerald" data-reveal>
         <div class="card-glow"></div>
         <div class="card-head">
           <span class="card-tag" data-i18n="card.emb.tag">AGRI · DATA</span>
@@ -170,23 +171,23 @@
       <span class="kicker" data-i18n="manifesto.kicker">MANIFESTO</span>
       <h2 data-i18n="manifesto.title">Build small. Build owned. Build forever.</h2>
     </div>
-    <div class="m-grid">
-      <div class="m-item">
+    <div class="m-grid" data-reveal-group>
+      <div class="m-item" data-reveal>
         <div class="m-num">01</div>
         <h4 data-i18n="m.1.h">No cloud dependency</h4>
         <p data-i18n="m.1.p">Every Bob Labs project runs on hardware you own — bare metal, on-prem, or your own cloud account. Zero vendor lock-in.</p>
       </div>
-      <div class="m-item">
+      <div class="m-item" data-reveal>
         <div class="m-num">02</div>
         <h4 data-i18n="m.2.h">Open by default</h4>
         <p data-i18n="m.2.p">Source-available or fully open-source. You can read, audit, fork and ship your own version of every line that runs on your servers.</p>
       </div>
-      <div class="m-item">
+      <div class="m-item" data-reveal>
         <div class="m-num">03</div>
         <h4 data-i18n="m.3.h">Focused, not bloated</h4>
         <p data-i18n="m.3.p">One project, one problem. Each platform does one thing very well, instead of becoming a leaky multi-tool.</p>
       </div>
-      <div class="m-item">
+      <div class="m-item" data-reveal>
         <div class="m-num">04</div>
         <h4 data-i18n="m.4.h">Built to last</h4>
         <p data-i18n="m.4.p">Boring stack, sharp execution. We optimize for projects that still run — and still make sense — five years from now.</p>
@@ -218,7 +219,7 @@
       </div>
       <div class="foot-links">
         <a href="https://lab.boblabs.eu/" target="_blank" rel="noopener">Bob Labs</a>
-        <a href="https://otc.boblabs.eu/" target="_blank" rel="noopener">Trustless OTC</a>
+        <a href="https://pouleapp.boblabs.eu/" target="_blank" rel="noopener">Poule App</a>
         <a href="https://emb.boblabs.eu/" target="_blank" rel="noopener">Etic'Monts</a>
       </div>
     </div>

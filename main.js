@@ -2,7 +2,7 @@
    Bob Labs — landing page interactions
    - Scroll-driven 3D tilt of the background grid
    - Card hover light follow
-   - Theme switcher (tech / finance / agri) — persists in localStorage
+   - Theme switcher (tech / app / agri) — persists in localStorage
    - Language switcher (EN / FR) — persists in localStorage
    ============================================================ */
 
@@ -56,8 +56,8 @@
       accent:  '#5eead4',
       accent2: '#60a5fa',
     },
-    finance: {
-      glyphs: ['$', '€', '₿', '¥', '£', '◇', '▲', '▼'],
+    app: {
+      glyphs: ['⬮', '⬯', '◯', '●', '○', '◐', '◑', '◉'],
       accent:  '#fbbf24',
       accent2: '#f97316',
     },
@@ -110,7 +110,38 @@
   });
 
   // ----------------------------------------------------------------
-  // 5) Init from storage / browser
+  // 5) Reveal-on-scroll — uses IntersectionObserver, respects reduced-motion.
+  //    Adds .is-in to elements with [data-reveal]; siblings get a staggered --i.
+  // ----------------------------------------------------------------
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealTargets = document.querySelectorAll('[data-reveal]');
+  revealTargets.forEach(el => el.classList.add('reveal'));
+
+  // Set --i per group so stagger reads naturally (cards 0..2, manifesto 0..3).
+  document.querySelectorAll('[data-reveal-group]').forEach(group => {
+    group.querySelectorAll('[data-reveal]').forEach((el, i) => {
+      el.style.setProperty('--i', i);
+    });
+  });
+
+  if (prefersReduced) {
+    revealTargets.forEach(el => el.classList.add('is-in'));
+  } else if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealTargets.forEach(el => io.observe(el));
+  } else {
+    revealTargets.forEach(el => el.classList.add('is-in'));
+  }
+
+  // ----------------------------------------------------------------
+  // 6) Init from storage / browser
   // ----------------------------------------------------------------
   let savedTheme = 'tech';
   let savedLang  = (navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en';

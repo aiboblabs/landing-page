@@ -9,19 +9,17 @@ window.I18N = {
     "hero.badge": "Independent · Open-source · Self-hosted",
     "hero.title.1": "Sovereign infrastructure",
     "hero.title.2": "for",
-    "hero.title.ai": "AI",
-    "hero.title.and": "&",
-    "hero.title.trading": "trading",
+    "hero.title.app": "app",
     "hero.title.data": "data",
     "hero.title.dot": ".",
-    "hero.lede": "Bob Labs builds and operates focused platforms — each solving one problem precisely, on infrastructure you control. No cloud lock-in, no per-token markup, no telemetry.",
+    "hero.lede": "Bob Labs builds and operates focused platforms — each solving one problem precisely, on infrastructure you control. Your data stays yours: self-managed hosting and GDPR compliance by default.",
     "hero.cta.primary": "Explore the projects →",
     "hero.cta.live": "View live lab",
     "hero.scroll": "scroll",
 
     "projects.kicker": "PROJECTS",
     "projects.title": "Three platforms. One philosophy.",
-    "projects.sub": "Each project ships independently, runs in production, and is built to be owned — not rented.",
+    "projects.sub": "Each project starts from a real need and runs in production — shaped around the work of the people who use it, never the other way around.",
 
     "card.lab.tag": "PRIVATE AI",
     "card.lab.status": "v2 · live",
@@ -30,12 +28,12 @@ window.I18N = {
     "card.lab.f2": "Private RAG & sandboxed tools",
     "card.lab.f3": "Ollama · vLLM · OpenAI routing",
 
-    "card.otc.tag": "P2P TRADING",
-    "card.otc.status": "bot active",
-    "card.otc.desc": "Secure peer-to-peer crypto trading, cross-chain and trustless. An autonomous escrow bot mediates orders across 10+ chains — no custody, no KYC.",
-    "card.otc.f1": "Cross-chain escrow bot",
-    "card.otc.f2": "10+ chains · ETH, BNB, Base…",
-    "card.otc.f3": "Open orderbook, no custody",
+    "card.poule.tag": "VOICE · FARM APP",
+    "card.poule.status": "private beta",
+    "card.poule.desc": "A breeding logbook that fills itself as you speak. Dictate your observations and the app structures egg counts, feed and traceability into a compliant farm registry.",
+    "card.poule.f1": "Voice entry, one-tap validation",
+    "card.poule.f2": "Live egg, feed & lighting tracking",
+    "card.poule.f3": "Compliant registry · PDF export",
 
     "card.emb.tag": "AGRI · DATA",
     "card.emb.status": "v2.0",
@@ -66,7 +64,7 @@ window.I18N = {
 
     "ui.theme": "Theme",
     "ui.theme.tech": "Tech",
-    "ui.theme.finance": "Finance",
+    "ui.theme.app": "App",
     "ui.theme.agri": "Agri"
   },
 
@@ -79,19 +77,17 @@ window.I18N = {
     "hero.badge": "Indépendant · Open-source · Auto-hébergé",
     "hero.title.1": "Infrastructure souveraine",
     "hero.title.2": "pour l'",
-    "hero.title.ai": "IA",
-    "hero.title.and": ", le",
-    "hero.title.trading": "trading",
+    "hero.title.app": "app",
     "hero.title.data": "données",
     "hero.title.dot": ".",
-    "hero.lede": "Bob Labs conçoit et opère des plateformes ciblées — chacune résout un problème précis, sur une infrastructure que vous contrôlez. Pas de cloud imposé, pas de tarification au token, aucune télémétrie.",
+    "hero.lede": "Bob Labs conçoit et opère des plateformes ciblées — chacune résout un problème précis, sur une infrastructure que vous contrôlez. Vos données restent les vôtres : hébergement maîtrisé et conformité RGPD par défaut.",
     "hero.cta.primary": "Découvrir les projets →",
     "hero.cta.live": "Voir un lab en direct",
     "hero.scroll": "défiler",
 
     "projects.kicker": "PROJETS",
     "projects.title": "Trois plateformes. Une philosophie.",
-    "projects.sub": "Chaque projet est livré séparément, tourne en production, et est conçu pour être possédé — pas loué.",
+    "projects.sub": "Chaque projet naît d'un besoin réel et tourne en production — pensé à partir du métier de celles et ceux qui l'utilisent, jamais l'inverse.",
 
     "card.lab.tag": "IA PRIVÉE",
     "card.lab.status": "v2 · en ligne",
@@ -100,12 +96,12 @@ window.I18N = {
     "card.lab.f2": "RAG privé & outils sandboxés",
     "card.lab.f3": "Ollama · vLLM · OpenAI",
 
-    "card.otc.tag": "TRADING P2P",
-    "card.otc.status": "bot actif",
-    "card.otc.desc": "Trading crypto pair-à-pair sécurisé, cross-chain et trustless. Un bot d'escrow autonome arbitre les ordres sur 10+ chaînes — sans custody, sans KYC.",
-    "card.otc.f1": "Bot d'escrow cross-chain",
-    "card.otc.f2": "10+ chaînes · ETH, BNB, Base…",
-    "card.otc.f3": "Carnet ouvert, sans custody",
+    "card.poule.tag": "APP VOCALE · ÉLEVAGE",
+    "card.poule.status": "bêta privée",
+    "card.poule.desc": "Un carnet d'élevage qui se remplit en parlant. Dictez vos observations et l'app structure pontes, aliments et traçabilité dans un registre d'élevage conforme.",
+    "card.poule.f1": "Saisie vocale, validation en un geste",
+    "card.poule.f2": "Suivi ponte, aliment & éclairage en direct",
+    "card.poule.f3": "Registre conforme · export PDF",
 
     "card.emb.tag": "AGRI · DATA",
     "card.emb.status": "v2.0",
@@ -136,7 +132,7 @@ window.I18N = {
 
     "ui.theme": "Thème",
     "ui.theme.tech": "Tech",
-    "ui.theme.finance": "Finance",
+    "ui.theme.app": "App",
     "ui.theme.agri": "Agri"
   }
 };
