@@ -2,6 +2,7 @@
 FROM alpine:3.20 AS build
 WORKDIR /src
 COPY index.html styles.css main.js flocking.js i18n.js VERSION ./
+COPY favicon.svg favicon.ico favicon-32.png apple-touch-icon.png icon-192.png icon-512.png manifest.webmanifest ./
 # Sanity check
 RUN test -f index.html && test -f VERSION
 
