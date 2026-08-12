@@ -1,7 +1,8 @@
 # --- Build stage (no-op for static, kept for parity & future bundling) ---
 FROM alpine:3.20 AS build
 WORKDIR /src
-COPY index.html styles.css main.js flocking.js i18n.js VERSION ./
+COPY index.html main.js flocking.js fonts.css VERSION ./
+COPY fonts ./fonts
 COPY favicon.svg favicon.ico favicon-32.png apple-touch-icon.png icon-192.png icon-512.png og-image.png manifest.webmanifest ./
 # Sanity check
 RUN test -f index.html && test -f VERSION
