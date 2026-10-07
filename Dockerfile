@@ -5,7 +5,9 @@ COPY index.html fonts.css VERSION ./
 COPY fonts ./fonts
 COPY favicon.svg favicon.ico favicon-32.png apple-touch-icon.png icon-192.png icon-512.png og-image.png manifest.webmanifest ./
 # Sanity check
-RUN test -f index.html && test -f VERSION
+RUN test -f index.html && test -f VERSION \
+ && grep -q ">v$(cat VERSION)</span>" index.html \
+ || (echo "Version stamp in index.html does not match VERSION ($(cat VERSION))" >&2; exit 1)
 
 # --- Runtime stage ---
 FROM nginx:1.27-alpine

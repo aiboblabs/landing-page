@@ -5,6 +5,30 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow [Semantic Versioning](https://semver.org/). The current
 release lives in [`VERSION`](./VERSION).
 
+## [0.5.0] — 2026-10-07
+
+### Added
+- "swarm" switch (bottom-left): an optional animated background, off by
+  default, remembered per browser (`localStorage` key `boblabs.swarm`).
+  The old flocking simulation returns, toned down: four symbols
+  (`₿ $ λ ◇`), slate glyphs with a few teal ones, upright and slower,
+  over a faint static grid. When off, the page is exactly v0.4.0.
+
+### Fixed
+- Version stamp is now written in the HTML instead of fetched from
+  `VERSION`, so it also shows when the page is opened from disk. The
+  Docker build fails if the stamp and `VERSION` disagree. Stamp contrast
+  raised to match the swarm switch.
+
+### Changed (vs. the v0.3.0 flocking)
+- Each symbol is rasterised once into a sprite; frames only blit images
+  (no per-glyph `shadowBlur`, double `fillText`, `save/restore`).
+- Steering math no longer allocates arrays per call (no GC churn).
+- Frame-rate independent: same speed on 60 Hz and 120 Hz screens.
+- Loop fully stopped when the switch is off; nothing runs by default.
+- Device pixel ratio capped at 2; agent count scales with the viewport.
+- `prefers-reduced-motion`: switching on shows a single still frame.
+
 ## [0.4.0] — 2026-10-07
 
 ### Changed

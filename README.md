@@ -1,7 +1,8 @@
 # Bob Labs — Landing Page
 
 The front door of <https://boblabs.eu/>. One screen: the mark, one line of
-description, a contact address. Deliberately nothing else.
+description, a contact address. Deliberately nothing else, apart from an
+optional animated background behind a discreet switch.
 
 Static, dependency-free, a single `index.html` (inline CSS + JS) plus
 self-hosted fonts and icons.
@@ -14,8 +15,14 @@ self-hosted fonts and icons.
   after it. Both are disabled under `prefers-reduced-motion`.
 - Language follows the browser (`fr*` → French, otherwise English). No
   switcher. Strings live in the `FR` map in `index.html`.
-- The version stamp in the bottom-right corner is fetched from
-  [`VERSION`](./VERSION) at runtime, so there is one place to bump.
+- **swarm** switch (bottom-left): optional background, off by default and
+  remembered per browser. Boids drawn as `₿ $ λ ◇` glyphs over a faint
+  grid; the pointer attracts them when slow and scatters them when fast.
+  Glyphs are pre-rendered sprites, the loop only runs while the switch is
+  on, and reduced-motion users get a still frame. Tunables are in `CFG`
+  in `index.html`.
+- The version stamp in the bottom-right corner is plain HTML. It must
+  match [`VERSION`](./VERSION); the Docker build fails if it doesn't.
 
 ## Project layout
 
@@ -36,7 +43,7 @@ self-hosted fonts and icons.
 
 ## Run locally
 
-No build step. Serve the folder (the version stamp needs HTTP, not `file://`):
+No build step. Open `index.html` directly, or serve the folder:
 
 ```bash
 python3 -m http.server 8080
@@ -63,7 +70,7 @@ docker run -p 8080:80 boblabs/landing:$(cat VERSION)
 
 ## Releasing
 
-1. Bump [`VERSION`](./VERSION) (semver).
+1. Bump [`VERSION`](./VERSION) (semver) and the `.ver` stamp in `index.html`.
 2. Add an entry to [`CHANGELOG.md`](./CHANGELOG.md).
 3. If `og-image.png` or the icons change, bump their `?v=` query in
    `index.html` so caches refetch.

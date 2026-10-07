@@ -59,13 +59,13 @@ body {
 }
 /* Film grain — static, barely there. */
 body::before {
-  content:""; position:fixed; inset:0; pointer-events:none; opacity:0.05;
+  content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.05;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 ::selection { background:rgba(94,234,212,0.25); }
 :focus-visible { outline:1px solid var(--accent); outline-offset:4px; }
 
-main { position:relative; width:min(100% - 48px, 34rem); padding:64px 0; }
+main { position:relative; z-index:2; width:min(100% - 48px, 34rem); padding:64px 0; }
 main > * { animation:rise 900ms cubic-bezier(.2,.7,.2,1) both; }
 main > :nth-child(2) { animation-delay:80ms; }
 main > :nth-child(3) { animation-delay:160ms; }
@@ -87,7 +87,33 @@ h1 { margin:0 0 20px; max-width:22ch; font-size:clamp(26px, 5.2vw, 38px); line-h
 .contact:hover .arrow, .contact:focus-visible .arrow { color:var(--accent); transform:translateX(3px); }
 .contact:hover .addr, .contact:focus-visible .addr { background-size:100% 1px; }
 
-.ver { position:fixed; right:20px; bottom:16px; font-family:var(--mono); font-size:11px; letter-spacing:0.08em; color:var(--faint); }
+.ver { position:fixed; z-index:2; right:20px; bottom:16px; font-family:var(--mono); font-size:11px; letter-spacing:0.08em; color:#6b7589; }
+
+/* Swarm background — off by default, faded in by the toggle. */
+.stage { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0; visibility:hidden; transition:opacity 700ms ease, visibility 0s linear 700ms; }
+.swarm-on .stage { opacity:1; visibility:visible; transition:opacity 700ms ease, visibility 0s; }
+.stage .grid {
+  position:absolute; inset:0;
+  background-image:linear-gradient(rgba(148,163,184,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.045) 1px, transparent 1px), linear-gradient(rgba(148,163,184,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.08) 1px, transparent 1px);
+  background-size:40px 40px, 40px 40px, 200px 200px, 200px 200px;
+  background-position:center;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 50%, #000 0%, #000 30%, transparent 75%);
+          mask-image:radial-gradient(ellipse at 50% 50%, #000 0%, #000 30%, transparent 75%);
+}
+/* Glyphs dim behind the text, full strength around it, fade at the edges. */
+.stage canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.4) 0%, #000 45%, #000 65%, transparent 100%);
+          mask-image:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.4) 0%, #000 45%, #000 65%, transparent 100%);
+}
+
+.swarm-toggle { position:fixed; z-index:2; left:12px; bottom:9px; display:inline-flex; align-items:center; gap:10px; padding:8px; border:0; background:none; cursor:pointer; font-family:var(--mono); font-size:11px; letter-spacing:0.08em; line-height:1; color:#6b7589; transition:color 200ms ease; -webkit-tap-highlight-color:transparent; }
+.swarm-toggle:hover, .swarm-toggle[aria-checked="true"] { color:var(--muted); }
+.swarm-toggle .track { position:relative; box-sizing:border-box; width:22px; height:12px; border:1px solid #262d38; border-radius:999px; transition:border-color 250ms ease; }
+.swarm-toggle .knob { position:absolute; top:2px; left:2px; width:6px; height:6px; border-radius:50%; background:var(--faint); transition:transform 250ms cubic-bezier(.2,.7,.2,1), background-color 250ms ease; }
+.swarm-toggle:hover .track { border-color:#363f4d; }
+.swarm-toggle[aria-checked="true"] .track { border-color:rgba(94,234,212,0.35); }
+.swarm-toggle[aria-checked="true"] .knob { transform:translateX(10px); background:var(--accent); }
 
 .sr { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 
@@ -101,10 +127,16 @@ h1 { margin:0 0 20px; max-width:22ch; font-size:clamp(26px, 5.2vw, 38px); line-h
 @media (prefers-reduced-motion: reduce) {
   main > * { animation:none; }
   .cursor { animation:none; }
+  .stage, .swarm-toggle, .swarm-toggle * { transition:none; }
 }
 </style>
 </head>
 <body>
+
+<div class="stage" id="stage" aria-hidden="true">
+  <div class="grid"></div>
+  <canvas id="swarm"></canvas>
+</div>
 
 <main>
   <div class="brand">
@@ -123,55 +155,251 @@ h1 { margin:0 0 20px; max-width:22ch; font-size:clamp(26px, 5.2vw, 38px); line-h
   <a class="contact" href="mailto:support@boblabs.eu"><span class="arrow" aria-hidden="true">→</span><span class="addr">support@boblabs.eu</span></a>
 </main>
 
-<span class="ver" id="ver" aria-hidden="true"></span>
+<button class="swarm-toggle" id="swarm-toggle" type="button" role="switch" aria-checked="false" title="Animated background"><span class="track" aria-hidden="true"><span class="knob"></span></span>swarm</button>
+<!-- Must match VERSION (the Docker build checks it). -->
+<span class="ver">v0.5.0</span>
 
 <script>
 (() => {
   'use strict';
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Language: follow the browser, no switcher.
   const FR = {
     lede: 'Un laboratoire indépendant qui construit de l’IA privée et des infrastructures souveraines.',
     tag: 'Auto-hébergé. Européen. Discret par nature.'
   };
+  const toggle = document.getElementById('swarm-toggle');
   if ((navigator.language || '').toLowerCase().startsWith('fr')) {
     document.documentElement.lang = 'fr';
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = FR[el.dataset.i18n]; });
+    toggle.title = 'Arrière-plan animé';
   }
 
-  // Version stamp, read from the VERSION file shipped next to this page.
-  fetch('./VERSION', { cache: 'no-store' })
-    .then(r => r.ok ? r.text() : '')
-    .then(v => { v = v.trim(); if (/^\d+\.\d+\.\d+/.test(v)) document.getElementById('ver').textContent = 'v' + v; })
-    .catch(() => {});
-
   // Tagline decodes from glyph noise once on load.
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const el = document.getElementById('tag');
-  const text = el.textContent;
-  const sr = document.createElement('span');
-  sr.className = 'sr';
-  sr.textContent = text;
-  el.before(sr);
-  el.setAttribute('aria-hidden', 'true');
+  if (!reduced) {
+    const el = document.getElementById('tag');
+    const text = el.textContent;
+    const sr = document.createElement('span');
+    sr.className = 'sr';
+    sr.textContent = text;
+    el.before(sr);
+    el.setAttribute('aria-hidden', 'true');
 
-  const GLYPHS = '01<>/\\[]{}=+*#%_';
-  const start = performance.now() + 350, dur = 1100;
-  let last = 0;
-  const frame = now => {
-    const p = Math.max(0, Math.min(1, (now - start) / dur));
-    if (now - last > 40 || p === 1) {
-      last = now;
-      const n = Math.floor(p * text.length);
-      let out = text.slice(0, n);
-      for (let i = n; i < text.length; i++) {
-        out += text[i] === ' ' ? ' ' : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+    const GLYPHS = '01<>/\\[]{}=+*#%_';
+    const start = performance.now() + 350, dur = 1100;
+    let last = 0;
+    const frame = now => {
+      const p = Math.max(0, Math.min(1, (now - start) / dur));
+      if (now - last > 40 || p === 1) {
+        last = now;
+        const n = Math.floor(p * text.length);
+        let out = text.slice(0, n);
+        for (let i = n; i < text.length; i++) {
+          out += text[i] === ' ' ? ' ' : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+        }
+        el.textContent = out;
       }
-      el.textContent = out;
-    }
-    if (p < 1) requestAnimationFrame(frame);
+      if (p < 1) requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  }
+
+  /* Swarm — boids drawn as glyphs over a faint grid. Off by default, the
+     toggle state is remembered, and nothing runs while it is off.
+
+       force = w_sep · separation(close) + w_ali · alignment(medium)
+             + w_coh · cohesion(far)     + w_mouse · pointer(slow → attract, fast → repel) */
+  const CFG = {
+    density: 34000,                  // viewport px² per agent
+    min: 14, max: 48,
+    rSep: 30, rAli: 64, rCoh: 100,   // neighbour radii, px
+    wSep: 1.5, wAli: 0.8, wCoh: 0.5, wMouse: 0.2,
+    maxSpeed: 0.9, maxForce: 0.035,  // px per 60 Hz frame
+    mouseRadius: 200,
+    slow: 0.6, fast: 2.2,            // pointer px/ms: below attracts, above repels
+    edge: 40,                        // wrap margin, px
+    size: 20                         // largest glyph, px
   };
-  requestAnimationFrame(frame);
+  const SYMBOLS = ['₿', '$', 'λ', '◇'];
+  const KEY = 'boblabs.swarm';
+
+  const canvas = document.getElementById('swarm');
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0, dpr = 0, agents = [], sprites = null;
+  let running = false, raf = 0, last = 0, stopTimer = 0, fonts = null;
+  const mouse = { x: 0, y: 0, t: 0, speed: 0, on: false };
+
+  // Each symbol is rasterised once per colour; frames only blit sprites.
+  function buildSprites() {
+    const px = Math.ceil(CFG.size * dpr), box = Math.ceil(px * 1.5), mid = box / 2;
+    const make = (sym, color) => {
+      const c = document.createElement('canvas');
+      c.width = c.height = box;
+      const g = c.getContext('2d');
+      g.fillStyle = g.strokeStyle = color;
+      if (sym === '◇') {  // drawn as a path: not covered by the self-hosted font subsets
+        const r = px * 0.38;
+        g.lineWidth = Math.max(1, px * 0.08);
+        g.beginPath();
+        g.moveTo(mid, mid - r); g.lineTo(mid + r * 0.8, mid); g.lineTo(mid, mid + r); g.lineTo(mid - r * 0.8, mid);
+        g.closePath();
+        g.stroke();
+      } else {
+        g.font = `500 ${px}px "JetBrains Mono", ui-monospace, monospace`;
+        g.textAlign = 'center';
+        g.textBaseline = 'middle';
+        g.fillText(sym, mid, mid);
+      }
+      return c;
+    };
+    sprites = {
+      size: box / dpr,
+      plain: SYMBOLS.map(s => make(s, '#c3cad6')),
+      accent: SYMBOLS.map(s => make(s, '#5eead4'))
+    };
+  }
+
+  function makeAgent() {
+    const ang = Math.random() * Math.PI * 2, sp = 0.3 + Math.random() * (CFG.maxSpeed - 0.3);
+    const depth = Math.random(), accent = Math.random() < 0.12;  // depth: 0 far … 1 near
+    return {
+      x: Math.random() * W, y: Math.random() * H,
+      vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
+      sym: (Math.random() * SYMBOLS.length) | 0, accent,
+      k: 0.6 + depth * 0.4,
+      alpha: accent ? 0.2 + depth * 0.17 : 0.12 + depth * 0.18
+    };
+  }
+
+  function resize() {
+    const d = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = Math.round(W * d); canvas.height = Math.round(H * d);
+    if (d !== dpr) { dpr = d; buildSprites(); }
+    const n = Math.round(Math.min(CFG.max, Math.max(CFG.min, W * H / CFG.density)));
+    while (agents.length < n) agents.push(makeAgent());
+    agents.length = n;
+  }
+
+  // Reynolds steering towards (dx, dy), accumulated into fx/fy without allocating.
+  let fx = 0, fy = 0;
+  function steer(a, dx, dy, w) {
+    const m = Math.hypot(dx, dy) || 1;
+    let x = dx / m * CFG.maxSpeed - a.vx, y = dy / m * CFG.maxSpeed - a.vy;
+    const f = Math.hypot(x, y);
+    if (f > CFG.maxForce) { x *= CFG.maxForce / f; y *= CFG.maxForce / f; }
+    fx += x * w; fy += y * w;
+  }
+
+  function step(dt) {
+    const c = CFG, n = agents.length;
+    const rSep2 = c.rSep * c.rSep, rAli2 = c.rAli * c.rAli, rCoh2 = c.rCoh * c.rCoh, rM2 = c.mouseRadius * c.mouseRadius;
+    mouse.speed *= Math.pow(0.92, dt);  // a resting pointer decays back to "slow"
+    let mInf = 0;                       // -1 attract … +1 repel
+    if (mouse.on) {
+      const s = mouse.speed;
+      mInf = s <= c.slow ? -1 : s >= c.fast ? 1 : (s - c.slow) / (c.fast - c.slow) * 2 - 1;
+    }
+    for (let i = 0; i < n; i++) {
+      const a = agents[i];
+      let sx = 0, sy = 0, sn = 0, ax = 0, ay = 0, an = 0, cx = 0, cy = 0, cn = 0;
+      for (let j = 0; j < n; j++) {
+        if (i === j) continue;
+        const b = agents[j], dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy;
+        if (d2 === 0 || d2 >= rCoh2) continue;
+        if (d2 < rSep2) { const inv = 1 / Math.sqrt(d2); sx += dx * inv; sy += dy * inv; sn++; }
+        else if (d2 < rAli2) { ax += b.vx; ay += b.vy; an++; }
+        else { cx += b.x; cy += b.y; cn++; }
+      }
+      fx = 0; fy = 0;
+      if (sn) steer(a, sx, sy, c.wSep);
+      if (an) steer(a, ax, ay, c.wAli);
+      if (cn) steer(a, cx / cn - a.x, cy / cn - a.y, c.wCoh);
+      if (mouse.on) {
+        const dx = a.x - mouse.x, dy = a.y - mouse.y, d2 = dx * dx + dy * dy;
+        if (d2 > 0 && d2 < rM2) {
+          const d = Math.sqrt(d2), k = mInf * (1 - d / c.mouseRadius) * c.wMouse / d;
+          fx += dx * k; fy += dy * k;
+        }
+      }
+      a.vx += fx * dt; a.vy += fy * dt;
+      const sp = Math.hypot(a.vx, a.vy);
+      if (sp > c.maxSpeed) { a.vx *= c.maxSpeed / sp; a.vy *= c.maxSpeed / sp; }
+      a.x += a.vx * dt; a.y += a.vy * dt;
+      if (a.x < -c.edge) a.x = W + c.edge; else if (a.x > W + c.edge) a.x = -c.edge;
+      if (a.y < -c.edge) a.y = H + c.edge; else if (a.y > H + c.edge) a.y = -c.edge;
+    }
+  }
+
+  function draw() {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    for (const a of agents) {
+      const s = sprites.size * a.k;
+      ctx.globalAlpha = a.alpha;
+      ctx.drawImage((a.accent ? sprites.accent : sprites.plain)[a.sym], a.x - s / 2, a.y - s / 2, s, s);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function frame(now) {
+    const dt = Math.min(3, (now - last) / (1000 / 60));  // same speed at 60/120 Hz; clamped after tab switches
+    last = now;
+    step(dt);
+    draw();
+    raf = requestAnimationFrame(frame);
+  }
+
+  async function start() {
+    running = true;
+    // Canvas text doesn't trigger webfont loads by itself; fetch the subsets the symbols need.
+    fonts = fonts || Promise.resolve(document.fonts && document.fonts.load('500 20px "JetBrains Mono"', SYMBOLS.join(''))).catch(() => {});
+    await fonts;
+    if (!running || raf) return;  // switched off meanwhile, or already looping
+    resize();
+    if (reduced) { draw(); return; }  // a single still frame
+    last = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+
+  function stop() {
+    running = false;
+    cancelAnimationFrame(raf);
+    raf = 0;
+  }
+
+  function setSwarm(on) {
+    toggle.setAttribute('aria-checked', String(on));
+    document.documentElement.classList.toggle('swarm-on', on);
+    clearTimeout(stopTimer);
+    if (on) start();
+    else stopTimer = setTimeout(stop, 700);  // let the fade-out finish first
+  }
+
+  toggle.addEventListener('click', () => {
+    const on = toggle.getAttribute('aria-checked') !== 'true';
+    setSwarm(on);
+    try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) {}
+  });
+
+  window.addEventListener('resize', () => {
+    if (!running) return;
+    resize();
+    if (reduced) draw();
+  });
+  window.addEventListener('pointermove', e => {
+    if (!running) return;
+    const t = performance.now();
+    if (mouse.on) mouse.speed = Math.hypot(e.clientX - mouse.x, e.clientY - mouse.y) / Math.max(1, t - mouse.t);
+    mouse.x = e.clientX; mouse.y = e.clientY; mouse.t = t; mouse.on = true;
+  }, { passive: true });
+  window.addEventListener('pointerout', e => { if (!e.relatedTarget) mouse.on = false; });
+
+  let saved = false;
+  try { saved = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (saved) setSwarm(true);
 })();
 </script>
 </body>
