@@ -1,47 +1,42 @@
 # Bob Labs — Landing Page
 
-Hub page that redirects visitors to the three Bob Labs platforms:
+The front door of <https://boblabs.eu/>. One screen: the mark, one line of
+description, a contact address. Deliberately nothing else.
 
-- **Bob Labs** — private AI platform · <https://lab.boblabs.eu/>
-- **Trustless OTC** — P2P crypto trading · <https://otc.boblabs.eu/>
-- **Etic'Monts** — MAEC environmental database · <https://emb.boblabs.eu/>
+Static, dependency-free, a single `index.html` (inline CSS + JS) plus
+self-hosted fonts and icons.
 
-Static, dependency-free, ~25 KB total. Plain HTML / CSS / JS.
+## Details
 
----
-
-## Features
-
-- Animated **3D perspective grid** background that tilts as you scroll.
-- Live **flocking simulation** (separation / alignment / cohesion) on a canvas.
-  Agents are attracted by a slow-moving mouse and repelled by a fast one.
-- **Three themes** with their own palette and agent icons:
-  - `tech` → cyan / blue · chip & circuit glyphs
-  - `finance` → amber / orange · `$ € ₿` glyphs
-  - `agriculture` → green · leaf, bee & berry glyphs
-- **EN / FR** language toggle (in-memory, no reload).
-- Fully responsive, respects `prefers-reduced-motion`.
-- Versioned via the [`VERSION`](./VERSION) file (semver).
+- Dark, monochrome, one accent (`#5eead4`).
+- Inter for the statement, JetBrains Mono for the rest.
+- The tagline decodes from glyph noise once on load; a block cursor blinks
+  after it. Both are disabled under `prefers-reduced-motion`.
+- Language follows the browser (`fr*` → French, otherwise English). No
+  switcher. Strings live in the `FR` map in `index.html`.
+- The version stamp in the bottom-right corner is fetched from
+  [`VERSION`](./VERSION) at runtime, so there is one place to bump.
 
 ## Project layout
 
 ```
 .
-├── index.html       Markup + i18n attributes
-├── styles.css       Theme tokens, layout, components
-├── main.js          Scroll-tilt, theme & language switchers
-├── flocking.js      Canvas-based boids simulation
-├── i18n.js          EN / FR string table
-├── VERSION          Current release (semver)
-├── Dockerfile       Multi-stage build → nginx:alpine
-├── nginx.conf       Production server config
-├── docker-compose.yml
-└── .dockerignore
+├── index.html           Page (markup, styles, script)
+├── fonts.css, fonts/    Self-hosted Inter + JetBrains Mono (woff2)
+├── favicon.*, icon-*    App icons (bL mark)
+├── og-image.png         1200×630 social card
+├── manifest.webmanifest
+├── brand/               Logo source files (SVG/PNG)
+├── VERSION              Current release (semver)
+├── CHANGELOG.md
+├── Dockerfile           nginx:alpine image
+├── nginx.conf           Production server config
+└── docker-compose.yml
 ```
 
 ## Run locally
 
-No build step. Open `index.html` in a browser, or:
+No build step. Serve the folder (the version stamp needs HTTP, not `file://`):
 
 ```bash
 python3 -m http.server 8080
@@ -52,12 +47,12 @@ python3 -m http.server 8080
 
 ```bash
 docker compose up -d --build
-# → http://localhost:8080
+# → http://127.0.0.1:8081
 ```
 
 The image is a static `nginx:alpine` serving `/usr/share/nginx/html`.
-Gzip, long-cache for assets, no-cache for HTML, security headers and
-SPA-style fallback are configured in [`nginx.conf`](./nginx.conf).
+Gzip, long-cache for assets, no-cache for HTML and security headers are
+configured in [`nginx.conf`](./nginx.conf).
 
 To pin a tag:
 
@@ -66,34 +61,13 @@ docker build -t boblabs/landing:$(cat VERSION) .
 docker run -p 8080:80 boblabs/landing:$(cat VERSION)
 ```
 
-## Theming
+## Releasing
 
-Themes are CSS custom properties scoped to `[data-theme]` on `<html>`.
-The active theme is persisted in `localStorage` under `boblabs.theme`.
-Add a new theme by:
-
-1. Adding a `[data-theme="my-theme"]` block in `styles.css`.
-2. Adding an entry to the `THEMES` map in `main.js` (icons + accents).
-3. Adding a button to the theme switcher in `index.html`.
-
-## Flocking
-
-The simulation lives in `flocking.js`. It is implemented in plain JS
-(canvas 2D) for portability — a Zig/WASM port is feasible but adds a
-toolchain for ~no perceived gain at this agent count (≤ 60 boids).
-
-Force model:
-
-```
-force = w_sep · separation(close)
-      + w_ali · alignment(medium)
-      + w_coh · cohesion(far)
-      + w_mouse · mouseInfluence(slow → attract, fast → repel)
-velocity += force
-position += velocity
-```
-
-Tunables live at the top of `flocking.js` (`CONFIG`).
+1. Bump [`VERSION`](./VERSION) (semver).
+2. Add an entry to [`CHANGELOG.md`](./CHANGELOG.md).
+3. If `og-image.png` or the icons change, bump their `?v=` query in
+   `index.html` so caches refetch.
+4. Commit, then tag: `git tag v$(cat VERSION)`.
 
 ## License
 

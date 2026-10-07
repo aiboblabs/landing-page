@@ -1,7 +1,7 @@
 {
-  "name": "Bob Labs — Sovereign infrastructure for app & data",
+  "name": "Bob Labs",
   "short_name": "Bob Labs",
-  "description": "Open-source platforms for private AI, a voice-driven farm app, and environmental data.",
+  "description": "An independent lab building private AI and sovereign infrastructure.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#07090d",
