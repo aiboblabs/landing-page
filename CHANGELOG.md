@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow [Semantic Versioning](https://semver.org/). The current
 release lives in [`VERSION`](./VERSION).
 
+## [0.6.0] — 2026-10-08
+
+### Added
+- Link to `tensorcash.boblabs.eu`, above the contact address, in the same
+  `→` style (opens in a new tab).
+
 ## [0.5.0] — 2026-10-07
 
 ### Added

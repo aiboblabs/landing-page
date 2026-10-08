@@ -1,7 +1,7 @@
 # Bob Labs — Landing Page
 
 The front door of <https://boblabs.eu/>. One screen: the mark, one line of
-description, a contact address. Deliberately nothing else, apart from an
+description, two links (TensorCash, contact). Deliberately nothing else, apart from an
 optional animated background behind a discreet switch.
 
 Static, dependency-free, a single `index.html` (inline CSS + JS) plus
